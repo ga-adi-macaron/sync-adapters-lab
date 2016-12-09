@@ -1,9 +1,7 @@
 package drewmahrt.generalassemb.ly.investingportfolio;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
@@ -20,12 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -89,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         try {
                             if(response.has("Status") && response.getString("Status").equals("SUCCESS")) {
                                 retrieveExchange(symbol,quantity,response.getString("Name"),response.getString("LastPrice"));
+                                Log.d(TAG, "onResponse: successfull entry of stuff");
                             }else{
                                 Toast.makeText(MainActivity.this,"The stock you entered is invalid",Toast.LENGTH_LONG).show();
                             }
