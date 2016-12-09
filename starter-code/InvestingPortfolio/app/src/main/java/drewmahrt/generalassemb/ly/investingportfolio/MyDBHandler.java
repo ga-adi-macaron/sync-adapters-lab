@@ -37,8 +37,8 @@ public class MyDBHandler extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
-        TABLE_STOCKS + "("
-        + COLUMN_ID + " INTEGER PRIMARY KEY,"
+            TABLE_STOCKS + "("
+            + COLUMN_ID + " INTEGER PRIMARY KEY,"
             + COLUMN_STOCKNAME + " TEXT,"
             + COLUMN_EXCHANGE + " TEXT,"
             + COLUMN_STOCK_SYMBOL + " TEXT,"

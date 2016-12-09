@@ -42,13 +42,17 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.R.id.text1;
+import static drewmahrt.generalassemb.ly.investingportfolio.R.id.text2;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
     private static final String TAG = "MainActivity";
     public static final Uri CONTENT_URI = StockPortfolioContract.Stocks.CONTENT_URI;
     public static final int LOADER_STOCK = 0;
 
-    RecyclerView mPortfolioRecyclerView;
-    StockRecylerViewAdapter mAdapter;
+    RecyclerView mPortfolioListView;
+    CursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +61,46 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mPortfolioRecyclerView = (RecyclerView) findViewById(R.id.portfolio_list);
+        mPortfolioListView = (RecyclerView)findViewById(R.id.portfolio_list);
 
-        mAdapter = new StockRecylerViewAdapter(new ArrayList<Stock>());
-        mPortfolioRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mPortfolioRecyclerView.setAdapter(mAdapter);
+        mCursorAdapter = new CursorAdapter(this,null,0) {
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup parent) {
+                return LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_2,parent,false);
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
 
+                String name = cursor.getString(cursor.getColumnIndex("stockname"));
+                String symbol = cursor.getString(cursor.getColumnIndex("symbol"));
+                String quantity = cursor.getString(cursor.getColumnIndex("quantity"));
+
+
+                text1.setText(name+" ("+symbol+")");
+                text2.setText("Quantity of stocks: "+quantity);
+            }
+        };
+
+        mPortfolioListView.setOnLongClickListener(new AdapterView.OnLongClickListener() {
+
+            /** I don't understand where the problem is here.
+             * I've implemented the method below, but
+             * I'm still getting errors that I can't seem to
+             * resolve.*/
+
+            @Override
+            public boolean onLongClick(AdapterView<?> parent, View view, int position, long id) {
+                getContentResolver().delete(ContentUris.withAppendedId(CONTENT_URI,id),null,null);
+
+                return false;
+            }
+        });
+
+        mPortfolioListView.setAdapter(mCursorAdapter);
         getSupportLoaderManager().initLoader(LOADER_STOCK,null,this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -88,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         Log.d(MainActivity.class.getName(),"Response: "+response.toString());
                         try {
                             if(response.has("Status") && response.getString("Status").equals("SUCCESS")) {
-                                retrieveExchange(symbol,quantity,response.getString("Name"),response.getString("LastPrice"));
+                                retrieveExchange(symbol,quantity,response.getString("Name"));
                             }else{
                                 Toast.makeText(MainActivity.this,"The stock you entered is invalid",Toast.LENGTH_LONG).show();
                             }
@@ -109,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    public void retrieveExchange(final String symbol, final String quantity, final String name, final String lastPrice){
+    public void retrieveExchange(final String symbol, final String quantity, final String name){
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String exchangeUrl = "http://dev.markitondemand.com/MODApis/Api/v2/Lookup/json?input="+symbol;
@@ -125,11 +162,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                             ContentResolver contentResolver = getContentResolver();
                             String exchange = ((JSONObject)response.get(0)).getString("Exchange");
                             ContentValues values = new ContentValues();
-                            values.put(StockPortfolioContract.Stocks.COLUMN_STOCK_SYMBOL,symbol);
-                            values.put(StockPortfolioContract.Stocks.COLUMN_QUANTITY,quantity);
-                            values.put(StockPortfolioContract.Stocks.COLUMN_STOCKNAME,name);
-                            values.put(StockPortfolioContract.Stocks.COLUMN_EXCHANGE, exchange);
-                            values.put(StockPortfolioContract.Stocks.COLUMN_PRICE,lastPrice);
+                            values.put("symbol",symbol);
+                            values.put("quantity",quantity);
+                            values.put("stockname",name);
+                            values.put("exchange", exchange);
                             contentResolver.insert(CONTENT_URI, values);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,11 +236,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mAdapter.swapData(data);
+        mCursorAdapter.changeCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mAdapter.swapData(null);
+        mCursorAdapter.changeCursor(null);
     }
 }
