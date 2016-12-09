@@ -1,6 +1,5 @@
 package drewmahrt.generalassemb.ly.investingportfolio;
 
-import android.animation.ObjectAnimator;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
