@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final int LOADER_STOCK = 0;
 
     RecyclerView mPortfolioRecyclerView;
-    StockRecylerViewAdapter mAdapter;
+    StockRecyclerViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mPortfolioRecyclerView = (RecyclerView) findViewById(R.id.portfolio_list);
 
-        mAdapter = new StockRecylerViewAdapter(new ArrayList<Stock>());
+        mAdapter = new StockRecyclerViewAdapter(new ArrayList<Stock>());
         mPortfolioRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mPortfolioRecyclerView.setAdapter(mAdapter);
 
