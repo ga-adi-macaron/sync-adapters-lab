@@ -1,5 +1,7 @@
 package drewmahrt.generalassemb.ly.investingportfolio;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final Uri CONTENT_URI = StockPortfolioContract.Stocks.CONTENT_URI;
     public static final int LOADER_STOCK = 0;
 
+    public static final String TYPE = "example.com";
+    public static final String ACCOUNT = "default_account";
+    private Account mAccount;
+
     RecyclerView mPortfolioRecyclerView;
     StockRecylerViewAdapter mAdapter;
 
@@ -63,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mPortfolioRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mPortfolioRecyclerView.setAdapter(mAdapter);
 
+        mAccount = createSyncAccount(this);
+        ContentResolver.setSyncAutomatically(mAccount, StockPortfolioContract.AUTHORITY, true);
+        ContentResolver.addPeriodicSync(mAccount, StockPortfolioContract.AUTHORITY, null, 60);
 
         getSupportLoaderManager().initLoader(LOADER_STOCK,null,this);
 
@@ -206,5 +215,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapData(null);
+    }
+
+    public static Account createSyncAccount(Context context) {
+        Account syncAccount = new Account(ACCOUNT, TYPE);
+
+        AccountManager accountManager = (AccountManager)context.getSystemService(ACCOUNT_SERVICE);
+
+        if(accountManager.addAccountExplicitly(syncAccount, null, null)) {
+
+        } else {
+            Log.d(TAG, "createSyncAccount: else");
+        }
+        return syncAccount;
     }
 }

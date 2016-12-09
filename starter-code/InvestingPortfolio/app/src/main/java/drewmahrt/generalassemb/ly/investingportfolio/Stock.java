@@ -5,37 +5,130 @@ package drewmahrt.generalassemb.ly.investingportfolio;
  */
 
 public class Stock {
-    private long mId;
-    private String mStockName;
-    private int mStockCount;
+    private String name;
+    private String symbol;
+    private Double lastPrice;
+    private Double change;
+    private Double changePercent;
+    private String timeStamp;
+    private Double mSDate;
+    private Integer marketCap;
+    private Integer volume;
+    private Double changeYTD;
+    private Double changePercentYTD;
+    private Integer high;
+    private Double low;
+    private Double open;
 
-    public Stock(String stockName, int stockCount, long id) {
-        mId = id;
-        mStockName = stockName;
-        mStockCount = stockCount;
+    public String getName() {
+        return name;
     }
 
-    public String getStockName() {
-        return mStockName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setStockName(String stockName) {
-        mStockName = stockName;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public int getStockCount() {
-        return mStockCount;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setStockCount(int stockCount) {
-        mStockCount = stockCount;
+    public Double getLastPrice() {
+        return lastPrice;
     }
 
-    public long getId() {
-        return mId;
+    public void setlastPrice(Double lastPrice) {
+        this.lastPrice = lastPrice;
     }
 
-    public void setId(long id) {
-        mId = id;
+    public Double getChange() {
+        return change;
+    }
+
+    public void setChange(Double change) {
+        this.change = change;
+    }
+
+    public Double getChangePercent() {
+        return changePercent;
+    }
+
+    public void setChangePercent(Double changePercent) {
+        this.changePercent = changePercent;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public Double getmSDate() {
+        return mSDate;
+    }
+
+    public void setmSDate(Double mSDate) {
+        this.mSDate = mSDate;
+    }
+
+    public Integer getMarketCap() {
+        return marketCap;
+    }
+
+    public void setMarketCap(Integer marketCap) {
+        this.marketCap = marketCap;
+    }
+
+    public Integer getVolume() {
+        return volume;
+    }
+
+    public void setVolume(Integer volume) {
+        this.volume = volume;
+    }
+
+    public Double getChangeYTD() {
+        return changeYTD;
+    }
+
+    public void setChangeYTD(Double changeYTD) {
+        this.changeYTD = changeYTD;
+    }
+
+    public Double getChangePercentYTD() {
+        return changePercentYTD;
+    }
+
+    public void setChangePercentYTD(Double changePercentYTD) {
+        this.changePercentYTD = changePercentYTD;
+    }
+
+    public Integer getHigh() {
+        return high;
+    }
+
+    public void setHigh(Integer high) {
+        this.high = high;
+    }
+
+    public Double getLow() {
+        return low;
+    }
+
+    public void setLow(Double low) {
+        this.low = low;
+    }
+
+    public Double getOpen() {
+        return open;
+    }
+
+    public void setOpen(Double open) {
+        this.open = open;
     }
 }
