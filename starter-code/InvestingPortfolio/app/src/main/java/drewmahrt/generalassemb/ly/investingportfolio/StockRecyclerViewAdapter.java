@@ -16,12 +16,12 @@ import java.util.List;
  * Created by drewmahrt on 11/22/16.
  */
 
-public class StockRecylerViewAdapter  extends RecyclerView.Adapter<StockRecylerViewAdapter.StockViewHolder>{
+public class StockRecyclerViewAdapter  extends RecyclerView.Adapter<StockRecyclerViewAdapter.StockViewHolder>{
     public static final Uri CONTENT_URI = StockPortfolioContract.Stocks.CONTENT_URI;
 
     List<Stock> mStockList;
 
-    public StockRecylerViewAdapter(List<Stock> stockList) {
+    public StockRecyclerViewAdapter(List<Stock> stockList) {
         mStockList = stockList;
     }
 
