@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sync-adapter
+    android:contentAuthority="drewmahrt.generalassemb.ly.investingportfolio.MyContentProvider"
+    android:accountType="example.com"
+    android:userVisible="false"
+    android:supportsUploading="true"
+    android:allowParallelSyncs="true"
+    android:isAlwaysSyncable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
