@@ -34,6 +34,11 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if(holder.getItemViewType()==1){
+            ((NasdaqViewHolder) holder).bindDataToViews(mStockPortfolio.get(position));
+        }else{
+            ((StockViewHolder) holder).bindDataToViews(mStockPortfolio.get(position));
+        }
 
     }
 
@@ -44,8 +49,13 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemViewType(int position) {
-
-        return super.getItemViewType(position);
+        Stock stock= mStockPortfolio.get(position);
+        String exchange = stock.getExchange();
+        if(mStockPortfolio.get(position).getExchange().equals("NASDAQ")){
+            return 1;
+        }else{
+            return 0;
+        }
     }
     public void swapData(Cursor cursor){
         mStockPortfolio.clear();
@@ -53,7 +63,9 @@ public class StockRecyclerAdapter extends RecyclerView.Adapter{
             while(!cursor.isAfterLast()){
                 Stock stock = new Stock(cursor.getString(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_STOCKNAME)),
                         cursor.getInt(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_QUANTITY)),
-                        cursor.getLong(cursor.getColumnIndex(StockPortfolioContract.Stocks._ID)));
+                        cursor.getLong(cursor.getColumnIndex(StockPortfolioContract.Stocks._ID)),
+                        cursor.getString(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_EXCHANGE)),
+                        cursor.getFloat(cursor.getColumnIndex(StockPortfolioContract.Stocks.COLUMN_PRICE)));
                 mStockPortfolio.add(stock);
                 cursor.moveToNext();
             }
@@ -70,6 +82,11 @@ class StockViewHolder extends RecyclerView.ViewHolder{
         mName = (TextView)itemView.findViewById(R.id.stock_name_text);
         mPrice = (TextView)itemView.findViewById(R.id.price_text);
     }
+    public void bindDataToViews(Stock stock){
+        mName.setText(stock.getStockName());
+        mPrice.setText(String.valueOf(stock.getStockPrice()));
+
+    }
 }
 class NasdaqViewHolder extends RecyclerView.ViewHolder{
     TextView mName, mPrice;
@@ -78,5 +95,9 @@ class NasdaqViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
         mName = (TextView)itemView.findViewById(R.id.stock_name_text);
         mPrice = (TextView)itemView.findViewById(R.id.price_text);
+    }
+    public void bindDataToViews(Stock stock){
+        mName.setText(stock.getStockName());
+        mPrice.setText(String.valueOf(stock.getStockPrice()));
     }
 }

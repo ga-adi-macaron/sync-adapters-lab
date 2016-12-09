@@ -13,7 +13,7 @@
     <TextView
         android:id="@+id/price_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@id/stock_name_text"
         android:text="$1999.99"
         android:textColor="#555"/>

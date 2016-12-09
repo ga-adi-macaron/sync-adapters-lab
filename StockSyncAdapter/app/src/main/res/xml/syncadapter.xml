@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sync-adapter
     xmlns:android= "http://schemas.android.com/apk/res/android"
-    android:contentAuthority="ly.generalassemb.drewmahrt.syncadapterexample.NewsContentProvider"
-    android:accountType= "example.com"
+    android:contentAuthority="drewmahrt.generalassemb.ly.investingportfolio.MyContentProvider"
+    android:accountType= "dothething"
     android:userVisible="false"
     android:supportsUploading="true"
     android:allowParallelSyncs="true"

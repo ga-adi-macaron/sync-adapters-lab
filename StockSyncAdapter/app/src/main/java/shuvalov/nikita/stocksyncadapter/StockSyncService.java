@@ -10,14 +10,14 @@ import android.support.annotation.Nullable;
  */
 
 public class StockSyncService extends Service {
-    private static BrothSyncAdapter sBrothSyncAdapter = null;
+    private static StockSyncAdapter sStockSyncAdapter = null;
     private static final Object sSyncAdapterLock = new Object();
 
     @Override
     public void onCreate() {
         synchronized (sSyncAdapterLock){
-            if(sBrothSyncAdapter ==null){
-                sBrothSyncAdapter = new BrothSyncAdapter(getApplicationContext(),true);
+            if(sStockSyncAdapter ==null){
+                sStockSyncAdapter = new StockSyncAdapter(getApplicationContext(),true);
             }
         }
         super.onCreate();
@@ -26,6 +26,6 @@ public class StockSyncService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return sBrothSyncAdapter.getSyncAdapterBinder();
+        return sStockSyncAdapter.getSyncAdapterBinder();
     }
 }

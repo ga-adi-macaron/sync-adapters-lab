@@ -8,15 +8,27 @@ public class Stock {
     private long mId;
     private String mStockName;
     private int mStockCount;
+    private float mStockPrice;
+    private String mExchange;
 
-    public Stock(String stockName, int stockCount, long id) {
+    public Stock(String stockName, int stockCount, long id, String exchange, float price) {
         mId = id;
         mStockName = stockName;
         mStockCount = stockCount;
+        mExchange = exchange;
+        mStockPrice = price;
     }
 
     public String getStockName() {
         return mStockName;
+    }
+
+    public float getStockPrice() {
+        return mStockPrice;
+    }
+
+    public void setStockPrice(float stockPrice) {
+        mStockPrice = stockPrice;
     }
 
     public void setStockName(String stockName) {
@@ -37,6 +49,14 @@ public class Stock {
 
     public void setId(long id) {
         mId = id;
+    }
+
+    public String getExchange() {
+        return mExchange;
+    }
+
+    public void setExchange(String exchange) {
+        mExchange = exchange;
     }
 }
 

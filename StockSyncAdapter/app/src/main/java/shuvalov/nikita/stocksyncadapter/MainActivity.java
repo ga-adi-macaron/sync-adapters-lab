@@ -2,7 +2,6 @@ package shuvalov.nikita.stocksyncadapter;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,21 +12,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private RecyclerView mRecyclerView;
     public static final int STOCK_LOADER = 45;
     private StockRecyclerAdapter mAdapter;
+    private TextView mTextView;
 
     // Account type
-    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT_TYPE = "dothething";
     // Account
     public static final String ACCOUNT = "default_account";
 
-    Account mAccount;
+    Account mAccount = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +37,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 
         mAccount = createSyncAccount(this);
+        mTextView = (TextView)findViewById(R.id.last_updated_text);
+
+        getSupportLoaderManager().initLoader(STOCK_LOADER,null,this);
+
 
         setUpRecyclerView();
 
-        ContentResolver resolver = getContentResolver();
-        ContentProviderClient contentProviderClient = resolver.acquireContentProviderClient(StockPortfolioContract.Stocks.CONTENT_URI);
-
-        ContentResolver.addPeriodicSync(mAccount,
-                StockPortfolioContract.AUTHORITY,
-                Bundle.EMPTY,
-                60);
 
         ContentResolver.setSyncAutomatically(mAccount,
                 StockPortfolioContract.AUTHORITY,
                 true);
+        ContentResolver.addPeriodicSync(mAccount,
+                StockPortfolioContract.AUTHORITY,
+                Bundle.EMPTY,
+                10);
+
+
 
 
     }
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -80,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapData(data);
+
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+
+        mTextView.setText("Last updated: "+currentDateTimeString);
 
     }
 
