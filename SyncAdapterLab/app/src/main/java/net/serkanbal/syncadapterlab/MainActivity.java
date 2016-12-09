@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public static final String ACCOUNT_TYPE = "example.com";
-    public static final String ACCOUNT = "default_account2";
+    public static final String ACCOUNT = "default_account";
     public static final int PORTFOLIO_LOADER = 0;
     private RecyclerView mPortfolioRecyclerView;
     private PortfolioRecyclerAdapter mAdapter;

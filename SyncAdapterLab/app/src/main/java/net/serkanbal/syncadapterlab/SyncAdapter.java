@@ -10,6 +10,9 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,10 +70,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter{
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 } else {
-                    //Get the new stock value from the JSON.
-                    //Update content provider with new info.
+
+                    String responseBody = response.body().string();
+                    JSONObject responseObject = new JSONObject(responseBody);
+                    String a = responseObject.getString("LastPrice");
+
+                    Log.d(TAG, "onPerformSync: " + a);
+
+                    //Update ContentProvider with the new data.
+
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
