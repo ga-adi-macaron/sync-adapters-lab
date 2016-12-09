@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/nasdaq_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@android:drawable/star_on"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/stock_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_toLeftOf="@id/nasdaq_image"
+        android:text="NAME"
+        android:textColor="#333"/>
+    <TextView
+        android:id="@+id/price_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stock_name_text"
+        android:layout_toLeftOf="@id/nasdaq_image"
+        android:text="$1999.99"
+        android:textColor="#555"/>
+
+</RelativeLayout>
