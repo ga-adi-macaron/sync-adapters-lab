@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 public class MyContentProvider extends ContentProvider {
+
   private static final String TAG = "MyContentProvider";
   private MyDBHandler myDB;
   private static final String AUTHORITY = StockPortfolioContract.AUTHORITY;
